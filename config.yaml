@@ -1,0 +1,62 @@
+# config.yaml
+
+data:
+  train_processed_path: 'data/processed/train_processed.csv'
+  test_processed_path: 'data/processed/test_processed.csv'
+  train_lgbm_path: 'data/processed/train_lgbm.csv'
+  submission_path: 'data/processed/sample_submission.csv'
+
+xgboost:
+  num_rounds: 100
+  optuna_trials: 50
+  params:
+    objective: 'reg:squarederror'
+    eval_metric: 'rmse'
+    booster: 'gbtree'
+    learning_rate: 0.1
+    max_depth: 6
+    device: 'cuda'
+    verbosity: 0
+    gamma: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_alpha: 0.1
+    reg_lambda: 0.1
+  tuned_params_path: 'models/xgboost_tuned_params.yaml'
+
+lightgbm:
+  num_rounds: 100
+  optuna_trials: 50
+  params:
+    objective: 'regression'
+    metric: 'gbdt'
+    verbose: 0
+    device: 'gpu'
+    gpu_platform_id: 0
+    gpu_device_id: 0
+    num_leaves: 31
+    max_depth: -1
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_alpha: 0.1
+    reg_lambda: 0.1
+  tuned_params_path: 'models/lightgbm_tuned_params.yaml'
+
+catboost:
+  params:
+    task_type: "GPU"
+    learning_rate: 0.1
+    depth: 6
+    l2_leaf_reg: 3
+    iterations: 500
+  hyperopt_evals: 150
+  tuned_params_path: 'models/catboost_tuned_params.yaml'
+
+models:
+  xgboost:
+    model_path: 'models/xgboost_model.json'
+  lightgbm:
+    model_path: 'models/lightgbm_model.txt'
+  catboost:
+    model_path: 'models/catboost_model.cbm'
